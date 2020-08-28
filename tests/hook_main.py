@@ -1,5 +1,6 @@
 import os.path as path
 import sys
+import json
 
 import dredd_hooks as hooks
 import requests
@@ -4375,9 +4376,10 @@ def verify_email_from_token(transaction):
         )
         db.session.add(user)
         db.session.commit()
-        transaction['request']['headers']['Authorization'] = ""
-        token = obtain_token("email@example.com", "password")
-        transaction['request']['body']['data'] = {"token": token}
+        request_body = json.loads(transaction['request']['body'])
+        request_body['data']['token'] = obtain_token("email@example.com", "password")
+        # transaction['request']['headers']['Authorization'] = ""
+        transaction['request']['body'] = json.dumps(request_body)
 
 
 # ------------------------- Custom System Role -------------------------
