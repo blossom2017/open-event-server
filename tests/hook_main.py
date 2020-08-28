@@ -74,16 +74,6 @@ api_password = "fossasia"
 api_uri = "http://localhost:5555/v1/auth/login"
 
 
-def obtain_token():
-    data = {"email": api_username, "password": api_password}
-    url = api_uri
-    response = requests.post(url, json=data)
-    response.raise_for_status()
-    parsed_body = response.json()
-    token = parsed_body["access_token"]
-    return token
-
-
 def obtain_token(email, password):
     data = {"email": email, "password": password}
     url = api_uri
@@ -128,7 +118,7 @@ def before_each(transaction):
     if 'token' in stash:
         print('adding a token')
     else:
-        stash['token'] = obtain_token()
+        stash['token'] = obtain_token(api_username, api_password)
 
     transaction['request']['headers']['Authorization'] = "JWT " + stash['token']
 
