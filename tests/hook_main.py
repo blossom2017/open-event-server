@@ -4367,12 +4367,17 @@ def verify_email_from_token(transaction):
     :return:
     """
     with stash['app'].app_context():
-        user = UserFactory(is_verified=False)
+        user = UserFactory(
+            email="email@example.com",
+            password="password",
+            is_verified=False,
+            is_admin=True,
+        )
         db.session.add(user)
         db.session.commit()
         transaction['request']['headers']['Authorization'] = ""
         transaction['request']['body']['data']['token'] = obtain_token(
-            user.email, user.password
+            email="email@example.com", password="password"
         )
 
 
