@@ -4370,6 +4370,7 @@ def verify_email_from_token(transaction):
         user = UserFactory(is_verified=False)
         db.session.add(user)
         db.session.commit()
+        transaction['request']['headers']['Authorization'] = ""
         transaction['request']['body']['data']['token'] = obtain_token(
             user.email, user.password
         )
