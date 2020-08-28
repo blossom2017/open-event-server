@@ -4377,10 +4377,7 @@ def verify_email_from_token(transaction):
         db.session.add(user)
         db.session.commit()
         request_body = json.loads(transaction['request']['body'])
-        request_body['data']['token'] = [
-            "email@example.com",
-            obtain_token("email@example.com", "password"),
-        ]
+        request_body['data']['token'] = obtain_token(api_username, api_password)
         # transaction['request']['headers']['Authorization'] = ""
         transaction['request']['body'] = json.dumps(request_body)
 
