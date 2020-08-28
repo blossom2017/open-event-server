@@ -4376,9 +4376,8 @@ def verify_email_from_token(transaction):
         db.session.add(user)
         db.session.commit()
         transaction['request']['headers']['Authorization'] = ""
-        transaction['request']['body']['data']['token'] = obtain_token(
-            "email@example.com", "password"
-        )
+        token = obtain_token("email@example.com", "password")
+        transaction['request']['body']['data'] = {"token": token}
 
 
 # ------------------------- Custom System Role -------------------------
