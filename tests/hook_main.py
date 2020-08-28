@@ -1461,7 +1461,10 @@ def speakers_call_post(transaction):
     :param transaction:
     :return:
     """
-    transaction['skip'] = True
+    with stash['app'].app_context():
+        speakers_call = SpeakersCallFactory()
+        db.session.add(speakers_call)
+        db.session.commit()
 
 
 @hooks.before("Speakers Calls > Speakers Call Details > Speakers Call Details")
@@ -3908,7 +3911,10 @@ def stripe_authorization_post(transaction):
     :param transaction:
     :return:
     """
-    transaction['skip'] = True
+    with stash['app'].app_context():
+        stripe = StripeAuthorizationFactory()
+        db.session.add(stripe)
+        db.session.commit()
 
 
 @hooks.before(
@@ -4147,7 +4153,10 @@ def event_import_post(transaction):
     :param transaction:
     :return:
     """
-    transaction['skip'] = True
+    with stash['app'].app_context():
+        event = EventFactoryBasic()
+        db.session.add(event)
+        db.session.commit()
 
 
 # ------------------------- Celery Task -------------------------
